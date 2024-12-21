@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+int gcd(int a, int b) {
+	if (b == 0) {
+		return a;
+	}
+
+	return gcd(b, a % b);
+}
+
+vector<int> EED(int a, int b) {
+	if (b == 0) {
+		return {1 , 0, a};
+	}
+
+	auto sub = EED(b, a % b);
+	int x = sub[1];
+	int y = sub[0] - (a / b) * sub[1];
+
+	return {x, y, sub[2]};
+}
+
+int MMI(int a, int m) {
+	if (gcd(a, m) != -1) {
+		return -1;
+	}
+
+	auto result = EED(a, m);
+	return (result[0] % m + m) % m;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>gcd</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

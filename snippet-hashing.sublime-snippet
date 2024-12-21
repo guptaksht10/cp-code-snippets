@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+class node {
+public:
+	string key;
+	int val;
+	node* next;
+	node(string key, int val) {
+		this->key = key;
+		this->val = val;
+		next = NULL;
+	}
+};
+
+class hashmap {
+public:
+	node** hashtable;
+	int ts;
+	int cs;
+	int hashfunction(string key) {
+		int multiplier = 1;
+		int index = 0;
+		for (auto x : key) {
+			index += (x) * multiplier;
+			multiplier *= 29;
+		}
+
+		return index;
+	}
+
+	void rehashing() {
+		node** old = hashtable;
+		hashtable = new node*[2 * ts];
+		ts *= 2; cs = ts;
+		for (int i = 0; i < ts; i++) {
+			hashtable[i] = NULL;
+		}
+
+		for (int i = 0; i < ts / 2; i++) {
+			node* head = old[i];
+			while (head != NULL) {
+				insert(head->key, head->val);
+				head = head -> next;
+			}
+		}
+	}
+
+	hashmap(int size = 7) {
+		hashtable = new node*[size];
+		cs = 0;
+		ts = size;
+		for (int i = 0; i < ts; i++) {
+			hashtable[i] = NULL;
+		}
+	}
+
+	void insert(string key, int val) {
+		int hashIndex = hashfunction(key);
+		node* n = new node(key, val);
+		node* head = hashtable[hashIndex];
+		n->next = head;
+		hashtable[hashIndex] = n;
+		cs++;
+		if (cs > 0.7 * ts) {
+			rehashing();
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hashing</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

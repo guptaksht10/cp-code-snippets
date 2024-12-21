@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+class wgraph {
+public:
+	map<T, list<pair<T, int>>> mp;
+	void addEdge(T x, T y, int weight) {
+		mp[x].push_back({y, weight});
+		mp[y].push_back({x, weight});
+	}
+
+	map<T, int> dijkistraAlgo(T src) {
+		map<T, int> distance;
+		set<pair<int, T>> s;
+		for (auto x : mp) {
+			distance[x.first] = INT_MAX;
+		}
+
+		distance[src] = 0;
+		s.insert({0, src});
+		while (!s.empty()) {
+			auto f = *(s.begin());
+			s.erase(s.begin());
+			T node = f.second;
+			int weight = f.first;
+			for (auto nbr : mp[node]) {
+				int edge_weight = nbr.second;
+				T child = nbr.first;
+				if (distance[child] > distance[node] + edge_weight) {
+					distance[child] = distance[node] + edge_weight;
+					auto f = s.find({edge_weight, child});
+					if (f != s.end()) {
+						s.erase(f);
+					}
+					s.insert({distance[child], child});
+				}
+			}
+		}
+
+		return distance;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkistra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

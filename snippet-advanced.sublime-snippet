@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+/*
+	Author : Akshat Gupta ;)
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ndl '\n'
+#define cndl cout << '\n';
+const int MOD = 1e7 + 9;
+
+int32_t main() {
+
+	presolve();
+
+	int testcase; cin>>testcase;
+
+	while (testcase--) {
+		solve();
+
+		// cerr<<"//=====================================================================================================//" ndl;
+	}
+
+	cerr << "Time Taken : " << (float)clock() / CLOCKS_PER_SEC << " secs     ";
+}
+
+void presolve() {
+
+	return;
+}
+
+void solve() {
+
+	return;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>advanced</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

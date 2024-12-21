@@ -1,0 +1,141 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+class DGraph {
+public:
+	map<T, list<T>> mp;
+	void addEdge(T x, T y) {
+		mp[x].push_back(y);
+	}
+
+	void DFS(T src) {
+		map<T, bool> visited;
+		for (auto x : mp) {
+			visited[x.first] = 0;
+		}
+
+		int connected_components = 1;
+
+		dfs_helper(src, visited);
+		for (auto x : mp) {
+			if (visited[x.first] == 0) {
+				dfs_helper(x.first, visited);
+				connected_components++;
+			}
+		}
+		cout << endl;
+	}
+
+	void dfs_helper(T x, map<int, bool> &visited) {
+		visited[x] = 1;
+		cout << x << ' ';
+
+		for (auto nbr : mp[x]) {
+			if (visited[nbr] == 0) {
+				dfs_helper(nbr, visited);
+			}
+		}
+	}
+
+	void BFS(T src) {
+		map<T, bool > visited;
+		for (auto x : mp) {
+			visited[x.first] = 0;
+		}
+
+		int connected_components = 1;
+		bfs_helper(src, visited);
+		for (auto x : mp) {
+			if (visited[x.first] == 0) {
+				bfs_helper(x.first, visited);
+				connected_components ++;
+			}
+		}
+
+		cout << endl;
+	}
+
+	void bfs_helper(T x, map<T, bool> &visited) {
+		queue<T> q;
+		q.push(x);
+		visited[x] = 1;
+		while (!q.empty()) {
+			T node = q.front();
+			q.pop();
+			cout << node << ' ';
+			for (auto nbr : mp[node]) {
+				if (visited[nbr] == 0) {
+					q.push(nbr);
+					visited[nbr] = 1;
+				}
+			}
+		}
+	}
+
+	void topologicalSort_dfs(T src) {
+		list<T> ans;
+		map<T, bool> visited;
+		for (auto x : mp) {
+			visited[x.first] = 0;
+		}
+
+		dfs_helper_topologicalSort(src, visited, ans);
+
+		for (auto x : ans) {
+			cout << x << " ";
+		}
+		cout << endl;
+		return;
+	}
+
+	void dfs_helper_topologicalSort(T node, map<T, bool>& visited, list<T> &ans) {
+		visited[node] = 1;
+		for (auto nbr : mp[node]) {
+			if (visited[nbr] == 0) {
+				dfs_helper_topologicalSort(nbr, visited, ans);
+			}
+		}
+
+		ans.push_front(node);
+		return;
+	}
+
+	void topologicalSort_bfs() {
+		map<T, int> indegree;
+		for (auto x : mp) {
+			indegree[x.first] = 0;
+		}
+
+		for (auto x : mp) {
+			auto node = x.first;
+			for (auto nbr : mp[node]) {
+				indegree[nbr]++;
+			}
+		}
+
+		queue<T> q;
+		for (auto x : indegree) {
+			if (x.second == 0) {
+				q.push(x.first);
+			}
+		}
+
+		while (!q.empty()) {
+			auto node = q.front();
+			q.pop();
+			cout << node << ' ';
+			for (auto nbr : mp[node]) {
+				indegree[nbr] --;
+				if (indegree[nbr] == 0) {
+					q.push(nbr);
+				}
+			}
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DirectedGraph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

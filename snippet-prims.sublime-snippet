@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+class wgraph {
+public:
+	map<T, list<pair<T, int>>> mp;
+	void addEdge(T x, T y, int weight) {
+		mp[x].push_back({y, weight});
+		mp[y].push_back({x, weight});
+	}
+
+	int prims_MST(T src) {
+		map<T, bool> visited;
+		priority_queue<pair<int, T>, vector<pair<int, T>>, greater<pair<int, T>>> pq;
+
+		int minimum_weight = 0;
+		pq.push({0, src});
+		while (!pq.empty()) {
+			auto x = pq.top();
+			pq.pop();
+			T to_edge = x.second;
+			int weight = x.first;
+			if (visited[to_edge] == 1) {
+				continue;
+			}
+
+			minimum_weight += weight;
+			visited[to_edge] = 1;
+			for (auto nbr : mp[to_edge]) {
+				if (!visited[nbr.first]) {
+					pq.push({nbr.second, nbr.first});
+				}
+			}
+		}
+
+		return minimum_weight;
+	}
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>primsAlgo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

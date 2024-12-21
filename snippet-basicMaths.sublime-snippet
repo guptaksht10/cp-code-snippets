@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+const int MOD = 1e9 + 7;
+
+int add(int a, int b) {
+	return (a % MOD + b % MOD + MOD) % MOD;
+}
+
+int sub(int a, int b) {
+	return ((a - b) % MOD + MOD) % MOD;
+}
+
+int multiply(int a, int b) {
+	return (a % MOD * b % MOD) % MOD;
+}
+
+int powerCal(int x, int y) {
+	int res = 1;
+	while (y > 0) {
+		if (y & 1) {
+			res = multiply(res, x);
+		}
+		y >>= 1;
+		x = multiply(x, x);
+	}
+
+	return res;
+}
+
+int divide(int x, int y) {
+	return (multiply(x , powerCal(y, MOD - 2)));
+}
+
+int inverse(int y) {
+	return powerCal(y, MOD - 2);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mathsModulo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

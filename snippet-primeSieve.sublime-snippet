@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+const int N = 100;
+vector<int> isPrime(N + 1, 1);
+void primeSieve() {
+	isPrime[0] = isPrime[1] = 0;
+
+	for (int i = 2; i <= sqrt(N); i++) {
+		for (int j = i * i; j <= N; j += i) {
+			isPrime[j] = 0;
+		}
+	}
+
+	for (int x = 0; x <= N; x++) {
+		cout << x << ' ' << isPrime[x] << endl;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>primeSeive</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

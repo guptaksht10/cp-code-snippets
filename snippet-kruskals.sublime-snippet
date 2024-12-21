@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+class wgraph {
+public:
+	vector<pair<int, vector<T>>> edgeList;
+	void addEdge(T x, T y, int weight) {
+		edgeList.push_back({weight, {x, y}});
+	}
+
+	int krushkal_MST() {
+		DSU s(edgeList.size());
+
+		sort(edgeList.begin(), edgeList.end());
+		int minimum_weight = 0;
+
+		for (auto edge : edgeList) {
+			int weight = edge.first;
+			int u = edge.second[0];
+			int v = edge.second[1];
+			if (s.find_set(u) != s.find_set(v)) {
+				s.union_set(u, v);
+				minimum_weight += weight;
+			}
+		}
+
+		return minimum_weight;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kruskals</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

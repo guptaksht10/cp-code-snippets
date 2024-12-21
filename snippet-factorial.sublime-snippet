@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+const int SIZE = 100;
+vector<int> fact(SIZE + 1, 1);
+void factCal() {
+	for (int i = 2; i <= SIZE; i++) {
+		fact[i] = fact[i - 1] * i;
+	}
+}
+
+int ncr(int n, int r) {
+	return multiply(multiply(fact[n], inverse(fact[r])), inverse(fact[n - r]));
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>factorial</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

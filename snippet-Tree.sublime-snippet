@@ -1,0 +1,282 @@
+<snippet>
+	<content><![CDATA[
+
+template <typename T>
+class TreeNode {
+public:
+	T val;
+	TreeNode<T>* left;
+	TreeNode<T>* right;
+
+	TreeNode(T x) {
+		val = x;
+		left = NULL;
+		right = NULL;
+	}
+
+};
+
+TreeNode<char>* buildtree() {
+	char x; cin >> x;
+	if (x == '-') {
+		return NULL;
+	}
+
+	TreeNode<char> *root = new TreeNode<char> (x);
+	root->left = buildtree();
+	root->right = buildtree();
+
+	return root;
+}
+
+template<typename T>
+TreeNode<T>* buildtree() {
+	T x; cin >> x;
+	if (x == -1) {
+		return NULL;
+	}
+
+	TreeNode<T> *root = new TreeNode<T> (x);
+	root->left = buildtree<T>();
+	root->right = buildtree<T>();
+
+	return root;
+}
+
+template <typename T>
+void printTreePreOrder(TreeNode<T>* root) {
+	if (root == NULL) {
+		return;
+	}
+
+	cout << root->val << ' ';
+	printTreePreOrder<T>(root->left);
+	printTreePreOrder<T>(root->right);
+
+	return;
+}
+
+template<typename T>
+void printTreePostOrder(TreeNode<T>* root) {
+	if (root == NULL) {
+		return;
+	}
+
+	cout << root->val << ' ';
+	printTreePostOrder<T>(root->left);
+	printTreePostOrder<T>(root->right);
+
+	return;
+}
+
+template<typename T>
+void printTreeInOrder(TreeNode<T>* root) {
+	if (root == NULL) {
+		return;
+	}
+
+	cout << root->val << ' ';
+	printTreeInOrder<T>(root->left);
+	printTreeInOrder<T>(root->right);
+
+	return;
+}
+
+template<typename T>
+int countNodes(TreeNode<T>* root) {
+	if (root == NULL) {
+		return 0;
+	}
+
+	return countNodes(root->left) + countNodes(root->right) + 1;
+}
+
+template<typename T>
+int heightTree(TreeNode<T>* root) {
+	if (root == NULL) {
+		return 0;
+	}
+
+	return (max(heightTree(root->left), heightTree(root->right)) + 1);
+}
+
+template<typename T>
+pair<int, int> diameterTree(TreeNode<T>* root) {
+	if (root == NULL) {
+		return {0, 0}; // {diameter, height}
+	}
+
+	pair<int, int> pl = diameterTree(root->left);
+	pair<int, int> pr = diameterTree(root->right);
+
+	pair<int, int> p;
+	p.first = max({pl.first, pr.first, pl.second + pr.second});
+	p.second = max(pl.second, pr.second) + 1;
+
+	return p;
+}
+
+
+template <typename T>
+pair<int, int> checkHBT(TreeNode<T>* root) {
+	if (root == NULL) {
+		return {1, 0}; // {bool, height};
+	}
+
+	pair<int, int> leftTree = checkHBT(root->left);
+	pair<int, int> rightTree = checkHBT(root->right);
+
+	pair<int, int> p;
+	p.first = (leftTree.first + rightTree.first) > 1;
+	p.second = max(leftTree.second, rightTree.second) + 1;
+
+	return p;
+}
+
+template <typename T>
+void printLeftView(TreeNode<T>* root) {
+	static int maxlevel = -1;
+	int level = 0;
+	if (root == NULL) {
+		return;
+	}
+
+	if (level > maxlevel) {
+		cout << root->val << ' ';
+		maxlevel++;
+	}
+
+	printLeftView(root->left);
+	printLeftView(root->right);
+
+	return;
+}
+
+template <typename T>
+void printRightView(TreeNode<T>* root) {
+	static int maxlevel = -1;
+	int level = 0;
+	if (root == NULL) {
+		return;
+	}
+
+	if (level > maxlevel) {
+		cout << root->val << ' ';
+		maxlevel++;
+	}
+
+	printRightView(root->right);
+	printRightView(root->left);
+
+	return;
+}
+
+template <typename T>
+TreeNode<T>* findLCA(TreeNode<T>* root, T &p, T &q) {
+	if (root == NULL || root->val == p || root->val == q) {
+		return root;
+	}
+
+	TreeNode<T>* leftTree = findLCA<T>(root->left, p, q);
+	TreeNode<T>* rightTree = findLCA<T>(root->right, p, q);
+
+	if (leftTree != NULL and rightTree != NULL) {
+		return root;
+	}
+
+	if (leftTree != NULL)
+		return leftTree;
+	return rightTree;
+}
+
+template<typename T>
+void BFS(TreeNode<T>* root) {
+	queue<TreeNode<T>*> q;
+	q.push(root);
+	q.push(NULL);
+
+	while (!q.empty()) {
+		TreeNode<T>* parent = q.top();
+		q.pop();
+
+		if (parent == NULL) {
+			cout << endl;
+		} else {
+			cout << parent->val << ' ';
+		}
+
+		if (parent->left) {
+			q.push(parent->left);
+		}
+
+		if (parent->right) {
+			q.push(parent->right);
+		}
+
+		if (parent == NULL and !q.empty) {
+			q.push(NULL);
+		}
+	}
+}
+
+template <typename T>
+void printTopView(TreeNode<T>* root, int col, map<int, T> &mp) {
+	if (root == NULL) {
+		return;
+	}
+
+	if (mp.count(col) == 0) {
+		mp[col] = root->val;
+	}
+
+	printTopView(root->left, col - 1, mp);
+	printTopView(root->right, col + 1, mp);
+
+	return;
+}
+
+template <typename T>
+void printBottomView(TreeNode<T>* root, int col, map<int, T> &mp) {
+	if (root == NULL) {
+		return;
+	}
+
+	mp[col] = root->val;
+
+	printBottomView(root->left, col - 1, mp);
+	printBottomView(root->right, col + 1, mp);
+
+	return;
+}
+
+template <typename T>
+/* Through BFS */
+void verticalAdvanceView(TreeNode<T>* root, map<int, map<int, set<T>>> &mp) {
+	queue<pair<TreeNode<T>*, pair<int, int>>> q;
+	q.push({root, {0, 0}});
+	while (!q.empty()) {
+		auto x = q.top();
+		auto root = x.first;
+		q.pop();
+		int col = x.second.first;
+		int lvl = x.second.second;
+		mp[col][lvl].insert(root->val);
+
+		if (root->left) {
+			q.push({root->left, {col - 1, lvl + 1}});
+		}
+
+		if (root->right) {
+			q.push({root->right, {col + 1, lvl + 1}});
+		}
+	}
+
+	return;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>TreeDS</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
