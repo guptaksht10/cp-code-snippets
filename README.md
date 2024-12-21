@@ -5,13 +5,16 @@ This repository contains code snippets and Sublime Text build settings tailored 
   1. Code Snippets
       Predefined templates for frequently used algorithms and data structures.
       Snippets are categorized by their purpose, such as:
-          a. Graph snippets (DFS/BFS)
-          b. Dynamic Programming patterns
-          c. Common utilities (modular arithmetic, fast I/O)
+     
+        a. Graph snippets (DFS/BFS)
+       
+        b. Dynamic Programming patterns
+
+        c. Common utilities (modular arithmetic, fast I/O)
   
-  2. Sublime Text Build Settings
+  3. Sublime Text Build Settings
         Custom build configurations to compile and run programs quickly.
-        Configured for popular language used in CP : C++: Leveraging g++ with optimization flags.
+        Configured for popular language used in CP: C++: Leveraging g++ with optimization flags.
 
 ## How to Use Code Snippets
   1. Clone the repository:
